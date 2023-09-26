@@ -196,10 +196,4 @@ if __name__ == "__main__":
     pool_result.wait(timeout=timeout)
     if pool_result.ready():
         traces = pool_result.get()
-    np.save('trace_test_timout.npy', traces)
-
-    # eps0 = 8.85e-12
-    # outputs = get_experimental(np.log10([400e-9, 24.1*eps0, 1.3e7, 1.7e-4, 1.7e-4, 1.5e23, 2.8e-16,
-    #                                      1e24, 100e-9, 10*eps0, 1e-5, 1e24, 200e-9, 3*eps0, 1e-6]))
-
-    # [22.3024, 1.0478, 0.9902, 20.2686, 15.7665, 22.3013, 1.0461, 1.0269, 20.2522, 19.442]
+    np.save('trace.npy', traces)
