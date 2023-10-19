@@ -14,4 +14,4 @@ The parameters `n_iter` and `n_chains` are specified in the main python script. 
 
 Note that all device parameters are input and used throughout the simulation in $\log_{10}$ form.
 
-The simulation saves a `.npy` (numpy) array of length `(n_chains,)` that contains the samples from each Markov chain.
+The simulation saves a `.npy` (numpy) array of length `(n_chains,)` where each entry contains an array of length `(n_iter, 17)` that contains the samples over the 17 parameters for each Markov chain.
