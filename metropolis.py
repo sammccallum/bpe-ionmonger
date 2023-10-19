@@ -197,15 +197,3 @@ if __name__ == "__main__":
         traces = pool_result.get()
     traces = np.array(traces, dtype='object')
     np.save('trace_test.npy', traces)
-
-    # eps0 = 8.85e-12
-    # outputs = get_experimental(np.log10([400e-9, 24.1*eps0, 1.3e7, 1.7e-4, 1.7e-4, 1.5e23, 2.8e-16,
-    #                                      1e24, 100e-9, 10*eps0, 1e-5, 1e24, 200e-9, 3*eps0, 1e-6]))
-    
-    # [22.3037, 1.0509, 0.9616, 20.3622, 15.5894, 22.3014, 1.0499, 1.0305, 20.3547, 19.5014]
-
-    # [22.3024, 1.0478, 0.9902, 20.2686, 15.7665, 22.3013, 1.0461, 1.0269, 20.2522, 19.442]
-
-    # outputs for data_1
-    # outputs for experimental data (0.178V/s and 1.0V/s)
-    # y = np.asarray([22.0, 0.98, 0.88, 7.86, 4.48, 22.8, 1.0, 0.9, 7.13, 3.62])
