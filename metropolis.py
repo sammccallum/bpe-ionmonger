@@ -3,6 +3,7 @@ import matlab.engine as matlab
 import outputs as out
 import multiprocessing
 import matplotlib.pyplot as plt
+import time
 
 # Define the function that runs the IonMonger simulation and returns the outputs
 def run_simulation(eng, inputs):
@@ -64,11 +65,10 @@ def metropolis_hastings(eng, initial_state, num_samples):
     return samples, acceptance_rate / num_samples
 
 # Scale the outputs so they are same order of magnitude
-def scale_outputs(y):
-    y[0] = y[0]/10
-    y[3:6] = y[3:6]/10
-    y[8:] = y[8:]/10
-    return y
+def scale_outputs(outputs):
+    for i in range(10):
+        outputs[i] = outputs[i] / y[i]
+    return outputs
 
 # Randomly sample inputs from uniform priors
 def initial_sample():
@@ -89,11 +89,11 @@ def log_prior(inputs):
 def log_likelihood(eng, inputs):
     outputs = run_simulation(eng, inputs)
     outputs = scale_outputs(outputs)
+
     # Calculate the mean squared error between the logged outputs and experimental logged outputs y
-    mse = np.mean((outputs - y)**2)
-    
+    mse = np.mean((outputs - np.ones((10,)))**2)
     # Return the log_likelihood, which is proportional to -0.5 * mse for a normal distribution
-    return (-0.5 * mse/0.001)
+    return (-0.5 * mse/0.05)
 
 # Log posterior is just the log prior + log likelihood
 def log_posterior(eng, inputs):
@@ -108,13 +108,11 @@ def run_single_chain(n_iter):
     prior_ranges = np.asarray([[-6.82, -6.22], [-10, -9.45], [6.60, 7.60], [-5.77, -3.27],
                                [-5.77, -3.27], [22, 26], [-17, -12], [23.85, 24.30], [-7.40, -6.60],
                                [-10.21, -9.51], [-8.0, -4.24], [21.90, 24.30], [-7.40, -6.60], [-10.75, -10.35], [-8, -5]])
+    
     jump_dist_sigmas = np.asarray([0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01])
-    # outputs for data_1
-    y = np.asarray([22.3024, 1.0478, 0.9902, 20.2686, 15.7665, 22.3013, 1.0461, 1.0269, 20.2522, 19.442])
-    # outputs for experimental data (0.178V/s and 1.0V/s)
-    # y = np.asarray([22.0, 0.98, 0.88, 7.86, 4.48, 22.8, 1.0, 0.9, 7.13, 3.62])
-    y = scale_outputs(y)
 
+    y = np.asarray([22.3037, 1.0509, 0.9616, 20.3622, 15.5894, 22.3014, 1.0499, 1.0305, 20.3547, 19.5014])
+    
     np.random.seed()
     initial_inputs = initial_sample()
     # Start the MATLAB engine
@@ -185,9 +183,10 @@ def plot_J_V(J, V):
     plt.savefig('J_V.png', dpi=300)
 
 if __name__ == "__main__":
-    multiprocessing.set_start_method("spawn")
     n_iter = 500
-    n_chains = 8
+    n_chains = 5
+
+    multiprocessing.set_start_method("spawn")
     iterations = [n_iter] * n_chains
     pool = multiprocessing.Pool(processes=n_chains)
     pool_result = pool.map_async(run_single_chain, iterations)
@@ -196,4 +195,17 @@ if __name__ == "__main__":
     pool_result.wait(timeout=timeout)
     if pool_result.ready():
         traces = pool_result.get()
-    np.save('trace.npy', traces)
+    traces = np.array(traces, dtype='object')
+    np.save('trace_test.npy', traces)
+
+    # eps0 = 8.85e-12
+    # outputs = get_experimental(np.log10([400e-9, 24.1*eps0, 1.3e7, 1.7e-4, 1.7e-4, 1.5e23, 2.8e-16,
+    #                                      1e24, 100e-9, 10*eps0, 1e-5, 1e24, 200e-9, 3*eps0, 1e-6]))
+    
+    # [22.3037, 1.0509, 0.9616, 20.3622, 15.5894, 22.3014, 1.0499, 1.0305, 20.3547, 19.5014]
+
+    # [22.3024, 1.0478, 0.9902, 20.2686, 15.7665, 22.3013, 1.0461, 1.0269, 20.2522, 19.442]
+
+    # outputs for data_1
+    # outputs for experimental data (0.178V/s and 1.0V/s)
+    # y = np.asarray([22.0, 0.98, 0.88, 7.86, 4.48, 22.8, 1.0, 0.9, 7.13, 3.62])
