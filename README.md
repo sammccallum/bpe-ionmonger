@@ -13,3 +13,5 @@ There are only four parameters that require input by the user: \
 The parameters `n_iter` and `n_chains` are specified in the main python script. The parameters `prior_ranges` and `y` are found in the `run_single_chain` function as global variables, this is required to allow access by each Markov chain.
 
 Note that all device parameters are input and used throughout the simulation in $\log_{10}$ form.
+
+The simulation saves a `.npy` (numpy) array of length `(n_chains,)` that contains the samples from each Markov chain.
