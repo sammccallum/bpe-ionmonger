@@ -4,7 +4,7 @@ A BPE method utilising the perovskite solar cell device model, IonMonger, to der
 mobile ion vacancies in perovskite solar cells' that may be found at https://arxiv.org/pdf/2309.14302.pdf.
 
 ## Example use
-There are only four parameters that require input by the user: \
+There are four parameters that require input by the user: \
 `n_iter` - number of iterations in each Markov chain \
 `n_chains` - number of Markov chains \
 `prior_ranges` - numpy array containing prior range of each device parameter (please see Table 1 of pre-print for parameter order in the array) \
