@@ -1,7 +1,7 @@
 # Bayesian Parameter Estimation (BPE) for characterising perovskite solar cells
 
 A BPE method utilising the perovskite solar cell device model, IonMonger, to derive posterior distributions over physical perovskite parameters associated with a J-V measurement of a perovskite device. This is the supporting code for the pre-print 'Bayesian parameter estimation for characterising
-mobile ion vacancies in perovskite solar cells' and may be found at https://arxiv.org/pdf/2309.14302.pdf
+mobile ion vacancies in perovskite solar cells' and may be found at https://arxiv.org/pdf/2309.14302.pdf.
 
 ## Example use
 There are only four parameters that require input by the user: \
