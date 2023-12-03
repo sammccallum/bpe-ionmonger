@@ -105,13 +105,34 @@ def proposal_distribution(current_state):
 
 def run_single_chain(n_iter):
     global prior_ranges, jump_dist_sigmas, y
-    prior_ranges = np.asarray([[-6.82, -6.22], [-10, -9.45], [6.60, 7.60], [-5.77, -3.27],
-                               [-5.77, -3.27], [22, 26], [-17, -12], [23.85, 24.30], [-7.40, -6.60],
-                               [-10.21, -9.51], [-8.0, -4.24], [21.90, 24.30], [-7.40, -6.60], [-10.75, -10.35], [-8, -5]])
+    prior_ranges = np.asarray([[-6.82, -6.22],    # perovskite layer width
+                               [-10, -9.45],      # perovskite permittivity
+                               [6.60, 7.60],      # absorption coefficient
+                               [-5.77, -3.27],    # electron diffusion coefficient
+                               [-5.77, -3.27],    # hole diffusion coefficient
+                               [22, 26],          # mobile ion vacancy density
+                               [-17, -12],        # mobile ion difffusion coefficient
+                               [23.85, 24.30],    # ETL doping density
+                               [-7.40, -6.60],    # ETL layer width
+                               [-10.21, -9.51],   # ETL permittivity
+                               [-8.0, -4.24],     # ETL electron diffusion coefficient
+                               [21.90, 24.30],    # HTL doping density
+                               [-7.40, -6.60],    # HTL layer width
+                               [-10.75, -10.35],  # HTL permittivity
+                               [-8, -5]])         # HTL hole diffusion coefficient
+    
+    y = np.asarray([22.3037,    # Jsc (0.1V/s)
+                    1.0509,     # Voc reverse scan (0.1V/s)
+                    0.9616,     # Voc forward scan (0.1V/s)
+                    20.3622,    # MPP reverse scan (0.1V/s)
+                    15.5894,    # MPP forward scan (0.1V/s)
+                    22.3014,    # Jsc (1.0V/s)
+                    1.0499,     # Voc reverse scan (1.0V/s)
+                    1.0305,     # Voc forward scan (1.0V/s)
+                    20.3547,    # MPP reverse scan (1.0V/s)
+                    19.5014])   # MPP forward scan (1.0V/s)
     
     jump_dist_sigmas = np.asarray([0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01])
-
-    y = np.asarray([22.3037, 1.0509, 0.9616, 20.3622, 15.5894, 22.3014, 1.0499, 1.0305, 20.3547, 19.5014])
     
     np.random.seed()
     initial_inputs = initial_sample()
