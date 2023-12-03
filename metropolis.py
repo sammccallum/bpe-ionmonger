@@ -217,4 +217,4 @@ if __name__ == "__main__":
     if pool_result.ready():
         traces = pool_result.get()
     traces = np.array(traces, dtype='object')
-    np.save('trace_test.npy', traces)
+    np.save('trace.npy', traces)
